@@ -1,0 +1,5 @@
+sloam:
+  cloud_topic: /os_cloud_node/cloud_undistort
+  odom_topic: /quadrotor/vio/odom
+  debug_mode: false
+  do_destagger: true

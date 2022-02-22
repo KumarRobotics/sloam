@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <arg name="enable_rviz" default="true"/>
+    <rosparam file="$(find sloam)/params/sloam.yaml" command="load" />
+    <rosparam file="$(find sloam)/params/sim.yaml" command="load" />
+    <node pkg="sloam" type="sloam_inference_node" name="segmentation" output="screen">
+    </node>
+
+    <group if="$(arg enable_rviz)">
+        <node pkg="rviz" type="rviz"
+        name="sloam_rviz" output="screen" args="-d $(find sloam)/launch/rviz/segmentation.rviz"/>
+    </group>
+
+</launch>

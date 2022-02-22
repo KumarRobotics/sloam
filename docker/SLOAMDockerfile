@@ -1,0 +1,83 @@
+FROM sloam/base:latest as build
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+WORKDIR /opt
+
+# vcpkg does have sophus, but not the version we need
+RUN git clone https://github.com/fmtlib/fmt.git && \
+    mkdir fmt/build && cd fmt/build && \
+    cmake .. && make && make install
+
+RUN git clone https://github.com/strasdat/Sophus.git && \
+    mkdir Sophus/build && cd Sophus/build && \
+    cmake -DCMAKE_BUILD_TYPE=Release .. && make && make install
+
+RUN git clone https://github.com/google/glog.git && \
+    cd glog && mkdir build && cd build && \
+    cmake .. && make && make install
+
+RUN git clone https://github.com/open-source-parsers/jsoncpp.git && \
+    cd jsoncpp && mkdir build && cd build && \
+    cmake .. && make && make install
+
+# BLAS & LAPACK for ceres
+RUN git clone https://ceres-solver.googlesource.com/ceres-solver && cd ceres-solver && \
+    mkdir build && cd build && cmake .. && make && make install
+
+RUN pip install pytest==6.2.1 onnx==1.10.1
+RUN cd /tmp && \
+    git clone --recursive --branch v1.8.2 https://github.com/Microsoft/onnxruntime && \
+    cd onnxruntime && \
+    ./build.sh \
+        --config RelWithDebInfo \
+        --build_shared_lib \
+        --build_wheel \
+        --skip_tests \
+        --parallel 3 && \
+    cd build/Linux/RelWithDebInfo && \
+    make install && \
+    pip install dist/* && cd ..
+
+RUN tar -czvf libs.tar.gz -C /usr/local/lib/ . && tar -czvf include.tar.gz -C /usr/local/include .
+
+FROM sloam/base:latest as runtime
+
+WORKDIR /opt
+
+RUN apt-get update && add-apt-repository -y ppa:borglab/gtsam-release-4.0 && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        libgtsam-dev libgtsam-unstable-dev
+
+COPY --from=build /opt/libs.tar.gz /opt/libs.tar.gz
+COPY --from=build /opt/include.tar.gz /opt/include.tar.gz
+COPY --from=build /usr/local/share/sophus /usr/local/share/sophus
+RUN tar -xvf libs.tar.gz -C /usr/local/lib && \ 
+    tar -xvf include.tar.gz -C /usr/local/include
+
+# # ROS deps
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    ros-noetic-rviz \
+    ros-noetic-tf2-eigen \
+    ros-noetic-pcl-ros \
+    ros-noetic-pcl-conversions \
+    ros-noetic-cv-bridge \
+    ros-noetic-image-transport \
+    ros-noetic-image-geometry \
+    ros-noetic-rqt-image-view \
+    ros-noetic-eigen-conversions \
+    ros-noetic-robot-localization \
+    python3-catkin-tools \
+    python3-osrf-pycommon
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+CMD []
