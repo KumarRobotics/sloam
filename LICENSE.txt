@@ -8,16 +8,13 @@ The Trustees of the University of Pennsylvania (“Penn”) and Guilherme V. Nar
 1) All copies of Software in binary form and/or source code, related documentation and/or other materials provided with the Software must reproduce and retain the above copyright notice, this list of conditions and the following disclaimer.
 
 
-2) Recipient shall have the right to create modifications of the Software (“Modifications”) for their internal research and academic purposes only. 
-
+2) Recipient shall have the right to create modifications of the Software ("Modifications") for their internal research, non-commercial, or academic purposes only. 
 
 3) All copies of Modifications in binary form and/or source code and related documentation must reproduce and retain the above copyright notice, this list of conditions and the following disclaimer.
 
+4) Recipient and Institution shall not distribute Software or Modifications to any commercial third parties without the prior written approval of Penn.
 
-4) Recipient and Institution shall not distribute Software or Modifications to any third parties without the prior written approval of Penn.
-
-
-5) Recipient will provide the Developer with feedback on the use of the Software and Modifications, if any, in their research.  The Developers and Penn are permitted to use any information Recipient provides in making changes to the Software. All feedback, bug reports and technical questions shall be sent to: Guilherme Nardari (guinardari@usp.br) and Xu Liu (liuxu@seas.upenn.edu) 
+5) Recipient is encouraged to provide the Developer with feedback on the use of the Software and Modifications, if any, in their research.  The Developers and Penn are permitted to use any information Recipient provides in making changes to the Software. All feedback, bug reports and technical questions shall be sent to: Guilherme Nardari (guinardari@usp.br) and Xu Liu (liuxu@seas.upenn.edu) 
 
 
 6) Recipient acknowledges that the Developers, Penn and its licensees may develop modifications to Software that may be substantially similar to Recipient’s modifications of Software, and that the Developers, Penn and its licensees shall not be constrained in any way by Recipient in Penn’s or its licensees’ use or management of such modifications. Recipient acknowledges the right of the Developers and Penn to prepare and publish modifications to Software that may be substantially similar or functionally equivalent to your modifications and improvements, and if Recipient or Institution obtains patent protection for any modification or improvement to Software, Recipient and Institution agree not to allege or enjoin infringement of their patent by the Developers, Penn or any of Penn’s licensees obtaining modifications or improvements to Software from the Penn or the Developers.
