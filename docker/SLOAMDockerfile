@@ -8,13 +8,14 @@ ENV NVIDIA_DRIVER_CAPABILITIES \
 
 WORKDIR /opt
 
-# vcpkg does have sophus, but not the version we need
 RUN git clone https://github.com/fmtlib/fmt.git && \
-    mkdir fmt/build && cd fmt/build && \
+    cd fmt && git checkout 8.0.0 && \
+    mkdir build && cd build && \
     cmake .. && make && make install
 
 RUN git clone https://github.com/strasdat/Sophus.git && \
-    mkdir Sophus/build && cd Sophus/build && \
+    cd Sophus && git checkout 49a7e1286910019f74fb4f0bb3e213c909f8e1b7 && \
+    mkdir build && cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release .. && make && make install
 
 RUN git clone https://github.com/google/glog.git && \
@@ -26,7 +27,8 @@ RUN git clone https://github.com/open-source-parsers/jsoncpp.git && \
     cmake .. && make && make install
 
 # BLAS & LAPACK for ceres
-RUN git clone https://ceres-solver.googlesource.com/ceres-solver && cd ceres-solver && \
+RUN git clone https://ceres-solver.googlesource.com/ceres-solver && \
+    cd ceres-solver && git checkout 206061a6ba02dc91286b18da48825f7a9ef561f0 && \
     mkdir build && cd build && cmake .. && make && make install
 
 RUN pip install pytest==6.2.1 onnx==1.10.1
@@ -48,10 +50,6 @@ RUN tar -czvf libs.tar.gz -C /usr/local/lib/ . && tar -czvf include.tar.gz -C /u
 FROM sloam/base:latest as runtime
 
 WORKDIR /opt
-
-RUN apt-get update && add-apt-repository -y ppa:borglab/gtsam-release-4.0 && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        libgtsam-dev libgtsam-unstable-dev
 
 COPY --from=build /opt/libs.tar.gz /opt/libs.tar.gz
 COPY --from=build /opt/include.tar.gz /opt/include.tar.gz
