@@ -23,7 +23,7 @@ sloam_ws/
 
 You will also need a neural network model for tree segmentation. You can find the ones we used for pine trees [here](https://drive.google.com/drive/folders/1RjuANtrhq0mfgWYKIFZWIriCozDq-Wc3?usp=sharing) (we used the same model in real world and simulated experiments). Download the model and put it in the `models` folder.
 
-We used [RangeNet++](https://github.com/PRBonn/lidar-bonnetal) for segmentation. The trained model needs to be exported to ONNX format. Depending on your inputs/architecture you may need to change the file `sloam/src/segmentation/inference.cpp`.
+We used [RangeNet++](https://github.com/PRBonn/lidar-bonnetal) for segmentation. The trained model needs to be exported to ONNX format. Depending on your inputs/architecture you may need to change the file `sloam/src/segmentation/inference.cpp`. You may also need to change the `seg_model_path` in the file `sloam/params/sloam.yaml` to point to the trained model.
 
 ## Docker Image
 
