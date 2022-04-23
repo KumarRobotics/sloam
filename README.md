@@ -4,6 +4,8 @@
     <img src="./doc/sloam_zamboni.gif" alt="drawing" width="800"/>
 </p> 
 
+(Note: Trees in grey color do not represent all trees in the semantic map. Instead, they represent a submap centered around the robot that is used for data association.)
+
 -----------------------
 
 ## Setup a worskpace
