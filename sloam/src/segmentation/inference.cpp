@@ -14,6 +14,7 @@ Segmentation::Segmentation(const std::string modelFilePath,
   _do_destagger = do_destagger;
 
   const std::string sessionName = "SLOAMSeg";
+  // specify number of CPU threads allowed for semantic segmentation inference to use
   _startONNXSession(sessionName, modelFilePath, false, 3);
 }
 
