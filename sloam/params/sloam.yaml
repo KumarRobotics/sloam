@@ -23,6 +23,7 @@ sloam:
   tree_match_thresh: 0.5 # dist threshold between point and model to use in pose estimation
   odom_freq_filter: 25  # Add every x odom messages to the queue. Target same freq. as lidar.E.g., if odom = 120Hz % 20 = 6 
   min_odom_distance: 0.5
+  min_sloam_z: 0.5 # min height of robot for triggering sloam. If you get the error msg "Quad is too low, will not call sloam", reduce this param. 
   map_frame_id: quadrotor/map
   odom_frame_id: quadrotor/odom
   robot_frame_id: quadrotor/base_link
